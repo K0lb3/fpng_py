@@ -1,0 +1,3 @@
+recursive-include fpng_py *.cpp
+recursive-include fpng *.cpp
+recursive-include fpng *.h
