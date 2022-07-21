@@ -2,6 +2,23 @@
 
 A C-Python wrapper for [fpng](https://github.com/richgel999/fpng), "a very fast C++ .PNG image reader/writer for 24/32bpp images."
 
+## Installation
+
+fpng_py is available via pypi, with pre-build wheels for macOS and Windows with SSE enabled.
+There are no pre-build wheels for Linux, as they would require building without SSE, which would decrease the performance by a fair bit.
+
+### via pypi
+
+```pip install fpng_py```
+
+### via git
+
+```pip install git+https://github.com/K0lb3/fpng_py.git```
+
+### via source
+
+```pip install .```
+
 ## Functions
 
 ```python
