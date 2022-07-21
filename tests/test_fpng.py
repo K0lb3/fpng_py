@@ -4,7 +4,12 @@ from time import time_ns
 
 from PIL import Image
 
+# stupid bypass to force the import of the site-lib fpng_py
+import sys
+syspath = sys.path
+sys.path = [path for path in sys.path if path.strip('.')]
 from fpng_py import *
+sys.path = syspath
 
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))
