@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["macOS-latest", "windows-latest"]
+        os: ["ubuntu-latest", "macOS-latest", "windows-latest"]
         cp: ["cp37","cp38","cp39","cp310"]
 
     timeout-minutes: 30
