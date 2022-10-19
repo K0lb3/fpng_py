@@ -61,27 +61,21 @@ jobs:
         python -m pip install --upgrade pip wheel setuptools
         pip install --upgrade twine
     
+    - name: Set up QEMU
+      if: runner.os == 'Linux'
+      uses: docker/setup-qemu-action@v1
+      with:
+          platforms: all
+
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.3.1
       env:
-        CIBW_ARCHS_LINUX: auto aarch64
-        CIBW_BUILD: |
-          ${{ matrix.cp }}-manylinux_x86_64 ${{ matrix.cp }}-manylinux_i686 ${{ matrix.cp }}-manylinux_aarch64 ${{ matrix.cp }}-win_amd64 ${{ matrix.cp }}-win32 ${{ matrix.cp }}-macosx_x86_64
-        CIBW_REPAIR_WHEEL_COMMAND: '' # Disable auditwheel
-        CIBW_TEST_REQUIRES: pytest pillow
-        CIBW_TEST_COMMAND: pytest -v -s {package}/tests
-
-    - name: Rename Linux wheels to ManyLinux
-      if: runner.os == 'Linux'
-      uses: jannekem/run-python-script-action@v1
-      with:
-        script: |
-          import os
-          wheeldir = "./wheelhouse"
-          for f in os.listdir(wheeldir):
-              fp = os.path.join(wheeldir, f)
-              print(fp,"->",fp.replace("linux", "manylinux2014"))
-              os.rename(fp, fp.replace("linux", "manylinux2014"))
+          CIBW_ARCHS_LINUX: auto aarch64
+          CIBW_BUILD: |
+              ${{ matrix.cp }}-manylinux_x86_64 ${{ matrix.cp }}-manylinux_i686 ${{ matrix.cp }}-manylinux_aarch64 ${{ matrix.cp }}-win_amd64 ${{ matrix.cp }}-win32 ${{ matrix.cp }}-macosx_x86_64
+          CIBW_REPAIR_WHEEL_COMMAND: "" # Disable auditwheel
+          CIBW_TEST_REQUIRES: pytest pillow
+          CIBW_TEST_COMMAND: pytest -v -s {package}/tests
       
     - name: Publish to PyPI
       if: success() && github.event_name == 'push' && env.TWINE_PASSWORD != ''
